@@ -1,0 +1,584 @@
+<?
+//GROUPTEMPLATE.PHP
+//Template for group proposals
+
+// Include database wrapper class
+include_once "ez_sql.php";
+//Include global functions
+include_once "common.php";
+
+//Get Lead id
+$leadid=get_param("leadid");
+
+//See if print or email
+$action=get_param("action");
+
+//Get group info
+$sSQL="SELECT * FROM GroupHeader WHERE GroupId=".$leadid;
+$group=$db->get_row($sSQL);
+
+//Get hotels info
+$sSQL="SELECT * FROM GroupHotels INNER JOIN Hotel ON grouphotels.GroupHotelHotel = hotel.HotelID WHERE grouphotels.GroupHotelGroup=".$leadid;
+$hotels=$db->get_results($sSQL);
+
+$sSQL="SELECT * FROM grouphotels WHERE GroupHotelGroup =".$leadid;
+
+$ghotel=$db->get_row($sSQL);
+
+//Get notes
+$sSQL="SELECT NotesDetails FROM Notes WHERE NotesGroup=".$leadid." AND NotesType='P'";
+$notes=$db->get_var($sSQL);
+
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>Group Proposal</title>
+    <style type="text/css">
+        <!--
+        body,p,td {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            line-height: 1.4;
+            font-size: 11px;
+            font-weight: normal
+        }
+        hr {
+            height: 1px;
+            border-style: solid none none none;
+            color: #999999;
+            margin: 0;
+        }
+        .celle{
+            border: 1px solid #999999;
+            font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+            font-size: 11px;
+            padding-left: 2px;
+        }
+        -->
+    </style>
+</head>
+<body style="">
+<img src="cid:header-att">
+<!-- <div width="50%">
+
+<img src="cid:nuevo" border="0" style="float:left"></div>
+
+
+<div width="50%" >
+<img src="cid:collection" style="max-height:130px; float:right" border="0"></div> -->
+
+<table border="0" cellpadding="0" cellspacing="0" width="95%" align="center">
+
+    <tr>
+        <td width="100%" align="center"><font face="Arial Black" color="#000080" size="3">GROUP PROPOSAL</font></td>
+    </tr>
+    <tr>
+        <td width="100%"><hr /></td>
+    </tr>
+    <tr>
+        <td width="100%" align="left"><? echo date("m/d/y");?><br />&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="100%" align="left">
+            <? echo $group->GroupName ;?><br />
+            <? echo $group->GroupContact ;?><br />
+            <? echo "VWG".$group->GroupId ;?><br />&nbsp;
+        </td>
+    </tr>
+    <tr>
+        <td width="100%" align="left">
+            Dear <? echo $group->GroupContact; ?>,<br />Thank you for your interest in <font color="#FF9900"><b>Viva Wyndham Resorts</b></font>.&nbsp; We are delighted to present you with some general information on our resorts, where your group will experience a fun-filled all-inclusive experience like no other.
+
+        </td>
+    </tr>
+    <tr>
+        <td width="100%">At <font color="#FF9900"><b>Viva Wyndham Resorts</b></font>, your all-inclusive stay will include the following :</td>
+    </tr>
+    <tr>
+        <td width="100%">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="100%">
+            <table border="0" cellpadding="0" cellspacing="0" align="center" width="55%">
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">Accommodations</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">Full breakfast, lunch, dinner and snacks</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">Unlimited a la carte dining with no reservations required</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">Unlimited beverages, cocktails and wine</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">Branded drinks included</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">Free Wi-fi in the entire resort</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">Free Safe box</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">Room service – 24 hours</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">In-room coffee maker</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <? if($hotel->HotelContractHotel == 10){?>
+                    <td width="95%">In-room welcome package including water, sodas & beer</td>
+                    <?} else {?>
+                    <td width="95%">In-room minibar stocked daily with water, Sodas & beer</td>
+                    <?}?>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">Waiter service at the beach & pool</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">Daily activities and fitness programs</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">Unlimited non-motorized sports with complimentary lessons</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">Live nightly entertainment</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">All taxes, surcharges, gratuities</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">And ... much, much more.</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td width="100%">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="100%">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="100%">In addition to the above-mentioned amenities, a <font color="#FF9900"><b>Viva Wyndham Resorts</b></font> all-inclusive vacation package includes:</td>
+    </tr>
+    <tr>
+        <td width="100%">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="100%">
+
+            <table border="0" cellpadding="0" cellspacing="0" align="center" width="55%">
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">Welcome cocktail upon check-in</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">Private Group Check-In upon request</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">Conference and meeting rooms are free for the first 8 hours, only on resorts available</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">Services and expertise of a group coordinator for the duration of the stay</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">Group Hospitality Desk</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top"  align="right">&#187;&nbsp;</td>
+                    <td width="95%">Complimentary upgrade for up to 3 rooms, subject to availability</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">VIP treatment for the Group Leader</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">Discount on diving and spa rates</td>
+                </tr>
+                <tr>
+                    <td width="5%" valign="top" align="right">&#187;&nbsp;</td>
+                    <td width="95%">Discount on excursions</td>
+                </tr>
+                <tr>
+                <tr><td><br/><br/></td><td></td></tr>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td width="100%">&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="100%">Here is the information you have requested:</td>
+    </tr>
+    <tr>
+        <td width="100%">&nbsp;</td>
+    </tr>
+    <?
+	foreach($hotels as $hotel){
+	?>
+    <tr>
+        <td width="100%" align="left"><? echo $hotel->HotelInfo ;?><br />&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="100%">To look at some pictures<?if($hotel->video != ""){?> and video<?}?> of the resort and its amenities, please click on the <?if($hotel->video != ""){?>links<?} else {?>link<?}?> below:<td>
+    </tr>
+    <tr>
+        <td width="100%"><a href="<?echo $hotel->foto?>">Link Pictures</a>
+    </tr>
+    <?if($hotel->video != ""){?>
+    <tr>
+        <td width="100%"><a href="<?echo $hotel->video?>">Link Video</a>
+    </tr>
+    <?}?>
+
+    <tr><td><br/></td></tr>
+    <?
+	};
+	?>
+    </tr>
+    <tr><td><br /> <br /></td></tr>
+    <tr>
+        <td>
+            <div>
+                <img src="cid:mid-att">
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td width="100%" align="">
+            <table border="0" cellpadding="0" cellspacing="0" width="95%">
+                <tr>
+                    <td width="100%" colspan="5"><br />&nbsp;</td>
+                </tr>
+                <tr>
+                    <td width="40%" align="left" style="border: 2px solid Black; font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;	font-size: 12px; padding-left: 2px; font-weight: bold;">Room Block</td>
+                    <td width="19%">&nbsp;</td>
+                    <td width="10%">&nbsp;</td>
+                    <td width="10%">&nbsp;</td>
+                    <td width="21%">&nbsp;</td>
+                </tr>
+                <?
+			//Get Rooms info
+			$sSQL="SELECT hotel.HotelShortName, groupperiods.PeriodCheckin, groupperiods.PeriodCheckout, grouprooms.childrenRate, hotel.HotelLongName, roomtype.RoomTypeDescription, occupancy.OccupancyDescription, grouprooms.GroupRoomsId, grouprooms.GroupRoomsQty, grouprooms.GroupRoomsNights, grouprooms.GroupRoomsPP, grouprooms.GroupRoomsRevenue, grouprooms.GroupRoomsHotel, grouprooms.GroupRoomsPeriod FROM grouprooms INNER JOIN occupancy ON grouprooms.GroupRoomsOccupancy = occupancy.OccupancyId INNER JOIN roomtype ON grouprooms.GroupRoomsType = roomtype.RoomTypeId INNER JOIN hotel ON grouprooms.GroupRoomsHotel = hotel.HotelID INNER JOIN groupperiods ON grouprooms.GroupRoomsPeriod = groupperiods.PeriodId  WHERE grouprooms.GroupRoomsGroup=".$leadid." ORDER BY grouprooms.GroupRoomsHotel, grouprooms.GroupRoomsPeriod, grouprooms.GroupRoomsOccupancy";
+			$rooms=$db->get_results($sSQL);
+
+
+                $hotelNums = array();
+                $hotelQuantity = 0;
+                foreach($rooms as $room){
+                if(count($hotelNums) > 0){
+                foreach($hotelNums as $hotelNum){
+                if($room->HotelID == $hotelnum){
+                $hotelQuantity--;
+                }
+                }
+                }
+                $hotelNums[] =  $room->HotelID;
+                $hotelQuantity++;
+                }
+
+
+                $periodid=0;
+                $hotelid=0;
+                foreach($rooms as $room){
+                $cambiato=0;
+                if($room->GroupRoomsHotel!=$hotelid){
+                $hotelid=$room->GroupRoomsHotel;
+                $cambiato=1;
+                }else{
+                $cambiato=0;
+                };
+                if($room->GroupRoomsPeriod !=$periodid){
+                $periodid=$room->GroupRoomsPeriod;
+                $cambiato=1;
+                };
+                if($cambiato==1){
+                ?>
+                <tr>
+                    <td width="100%" colspan="5">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td width="100%" colspan="5" bgcolor="#D3D3D3"><b>
+                        <div style="margin-top:10px">
+                            <?echo $room->HotelLongName; ?>
+                        </div>
+                        <div align="right" style="margin-top:-20px">
+                            Date of Arrival :
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <?if($room->PeriodCheckin != null){  echo date('F j, Y',strtotime($room->PeriodCheckin)); }?>
+                            <br />
+                            <font color="#D3D3D3"><?echo $room->HotelLongName; ?> </font>
+                            Date of Departure :
+                            &nbsp;&nbsp;
+                            <?if($room->PeriodCheckout != null){ echo date('F j, Y',strtotime($room->PeriodCheckout)); }?></b>
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <!-- Rooms Header -->
+                    <td width="40%" class="celle" align="left" bgcolor="#FFFFCC">&nbsp;<b>Room Type</b></td>
+                    <td width="19%" class="celle" align="center" bgcolor="#FFFFCC"><b>Occupancy</b></td>
+                    <td width="10%" class="celle" align="center" bgcolor="#FFFFCC"><b>Rooms</b></td>
+                    <td width="10%" class="celle" align="center" bgcolor="#FFFFCC"><b>Nights</b></td>
+                    <td width="21%" class="celle" align="center" bgcolor="#FFFFCC"><b>Price PP per night</b></td>
+                </tr>
+                <tr>
+                    <td width="40%" class="celle" align="left">&nbsp;<? echo $room->RoomTypeDescription; ?></td>
+                    <td width="19%" class="celle" align="center"><? echo $room->OccupancyDescription; ?></td>
+                    <td width="10%" class="celle" align="center"><? echo $room->GroupRoomsQty; ?></td>
+                    <td width="10%" class="celle" align="center"><? echo $room->GroupRoomsNights; ?></td>
+                    <td width="21%" class="celle" align="center">$ <? echo $room->GroupRoomsPP; ?></td>
+                </tr>
+                <?
+				}else{
+				   ?>
+                <tr>
+                    <td width="40%" class="celle" align="left">&nbsp;<? echo $room->RoomTypeDescription; ?></td>
+                    <td width="19%" class="celle" align="center"><? echo $room->OccupancyDescription; ?></td>
+                    <td width="10%" class="celle" align="center"><? echo $room->GroupRoomsQty; ?></td>
+                    <td width="10%" class="celle" align="center"><? echo $room->GroupRoomsNights; ?></td>
+                    <td width="21%" class="celle" align="center">$ <? echo $room->GroupRoomsPP; ?></td>
+                </tr>
+                <?
+			   };
+		   };
+		   ?>
+                </tr>
+                <tr><td><br /></td></tr>
+                <table>
+                    <tr>
+                        <td>
+
+                            <?
+			$occ[1] = "Single";
+			$occ[2] = "Double";
+			$occ[3] = "Tripe";
+			$occ[4] = "Quadruple";
+
+			$sSQL="SELECT groupperiods.PeriodCheckin, groupperiods.PeriodCheckout, grouprooms.childrenRate, hotel.HotelLongName, roomtype.RoomTypeDescription, occupancy.OccupancyDescription, grouprooms.GroupRoomsId, grouprooms.GroupRoomsQty, grouprooms.GroupRoomsNights, grouprooms.GroupRoomsPP, grouprooms.GroupRoomsRevenue, grouprooms.GroupRoomsHotel, grouprooms.GroupRoomsPeriod FROM grouprooms INNER JOIN occupancy ON grouprooms.GroupRoomsOccupancy = occupancy.OccupancyId INNER JOIN roomtype ON grouprooms.GroupRoomsType = roomtype.RoomTypeId INNER JOIN hotel ON grouprooms.GroupRoomsHotel = hotel.HotelID INNER JOIN groupperiods ON grouprooms.GroupRoomsPeriod = groupperiods.PeriodId  WHERE grouprooms.GroupRoomsGroup=".$leadid." ORDER BY grouprooms.GroupRoomsHotel, grouprooms.GroupRoomsPeriod, grouprooms.GroupRoomsOccupancy";
+			$rooms=$db->get_results($sSQL);
+
+                            foreach($rooms as $room){
+                            $sSQL="SELECT * FROM occupancyprice WHERE roomid = ".$room->GroupRoomsId;
+
+                            $occPrices = $db->get_results($sSQL);?>
+                    <tr><td width="100%">
+                        * <?echo $room->RoomTypeDescription; if(substr($room->RoomTypeDescription, -1) == "s"){echo"' rates";} else{ echo "'s rates";}?>
+                    </tr></td>	<?
+			foreach($occPrices as $occPrice){?>
+                    <tr><td width="100%">&nbsp;&nbsp;&nbsp;&nbsp;&#187;&nbsp;<?echo $occ[$occPrice->occupancyid];?> occupancy is $<?echo $occPrice->price;?> per person per night.
+                    </tr></td>
+                    <?}?><tr><td><br /></td></tr><?
+			}?>
+                    </td>
+                    </tr>
+                </table>
+
+                <tr>
+                    <td width="100%" colspan="5"><i>
+
+                        <b>* This is an Adults-Only resort. Children under 18 years old are not allowed.</b>
+                        <br/>* All prices are per person, per night.
+                        <br/>* Above amenities and rates require a mandatory minimum of 10 rooms in double occupancy
+                        <br />* Reservations traveling 5 days prior or after rooms blocked will be honored with the same group rates.
+                        <br />* Any pre and post stays are based on space available.
+                        <br />* Above rates are valid for seven days from the proposal issued date. After seven days, rates are subject to change without notice or until contracted.
+                        <br />* Space is subject to availability.
+                        <br />* In order to secure a group block, we require a signed contract and a 25% deposit from the total room block amount.
+                    </i>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100%" colspan="5"><br />&nbsp;</td>
+                </tr>
+
+                <tr>
+                    <td width="40%" align="left" style="font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;	font-size: 12px; padding-left: 2px; font-weight: bold;">Notes</td>
+                    <td width="19%">&nbsp;</td>
+                    <td width="10%">&nbsp;</td>
+                    <td width="10%">&nbsp;</td>
+                    <td width="21%">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td width="100%" colspan="5">
+                        <?echo $notes;?>
+                    </td>
+                </tr>
+
+                <!-- 			</table>
+                        </td>
+                 -->	<?
+	//Get extra info
+	$sSQL="SELECT
+ groupperiods.PeriodCheckin, groupperiods.PeriodCheckout, hotel.HotelLongName, groupextra.GroupExtraShortDesc, groupextra.GroupExtraUnits, groupextra.GroupExtraPricePU, groupextra.GroupExtraTotal, groupextra.GroupExtraHotel, groupextra.GroupExtraPeriod, groupextra.GroupExtraId
+FROM groupextra
+INNER JOIN hotel ON
+groupextra.GroupExtraHotel = hotel.HotelID
+INNER JOIN groupperiods ON groupextra.GroupExtraPeriod = Groupperiods.PeriodId
+ WHERE groupextra.GroupExtraGroup=".$leadid." ORDER BY groupextra.GroupExtraHotel, groupextra.GroupExtraPeriod";
+ if($extras=$db->get_results($sSQL)){
+                ?>
+                <tr>
+                    <td width="100%" align="center">
+                        <table border="0" cellpadding="0" cellspacing="0" width="95%">
+                            <tr>
+                                <td width="100%" colspan="4"><br />&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td width="40%" align="left" style="border: 2px solid Black; font-family: Verdana, Geneva, Arial, Helvetica, 	sans-serif;	font-size: 12px; padding-left: 2px; font-weight: bold;">Additional Services</td>
+                                <td width="30%">&nbsp;</td>
+                                <td width="15%">&nbsp;</td>
+                                <td width="15%">&nbsp;</td>
+                            </tr>
+                            <?
+		$periodid=0;
+		$hotelid=0;
+		foreach($extras as $extra){
+			$cambiato=0;
+			if($extra->GroupExtraHotel!=$hotelid){
+                            $hotelid=$extra->GroupExtraHotel;
+                            $cambiato=1;
+                            }else{
+                            $cambiato=0;
+                            };
+                            if($extra->GroupExtraPeriod !=$periodid){
+                            $periodid=$extra->GroupExtraPeriod;
+                            $cambiato=1;
+                            };
+                            if($cambiato==1){
+                            ?>
+                            <tr>
+                                <td width="100%" colspan="4">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td width="100%" colspan="5" bgcolor="#D3D3D3">&nbsp;<font color="#0099CC" size="1"><b>
+                                    <?echo $room->HotelLongName; ?> - Date of Arrival <? echo $room->PeriodCheckin; ?>- Date of Departure <? echo 		$room->PeriodCheckout; ?></b></font>
+                                </td>
+                            </tr>
+                            <tr>
+                                <!-- Rooms Header -->
+                                <td width="70" class="celle" colspan="2" bgcolor="#FFFFCC"><b>Description</b></td>
+                                <td width="15%" class="celle" align="center" bgcolor="#FFFFCC"><b>Units</b></td>
+                                <td width="15%" class="celle" align="center" bgcolor="#FFFFCC"><b>Price</b></td>
+                            </tr>
+                            <tr>
+                                <td width="70%" class="celle" colspan="2"><? echo $extra->GroupExtraShortDesc; ?></td>
+                                <td width="15%" class="celle" align="center"><? echo $extra->GroupExtraUnits; ?></td>
+                                <td width="15%" class="celle" align="center">$ <? echo $extra->GroupExtraPricePU; ?></td>
+                            </tr>
+                            <?
+			    }else{
+				?>
+                            <tr>
+                                <td width="70%" class="celle" colspan="2"><? echo $extra->GroupExtraShortDesc; ?></td>
+                                <td width="15%" class="celle" align="center"><? echo $extra->GroupExtraUnits; ?></td>
+                                <td width="15%" class="celle" align="center">$ <? echo $extra->GroupExtraPricePU; ?></td>
+                            </tr>
+                            <?
+				};
+				};
+				};
+				?>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100%">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td width="100%">As an added bonus, we will offer one complimentary &quot;Resort Stay&quot; for every 20 paid adults participants. Therefore the twenty-first person is free. This complimentary will be allocated in the category in which there is the greatest number of room types reserved.
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100%">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td width="100%">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td width="100%" align="center">
+                        <img src="cid:testim" border="0"></td>
+                </tr>
+                <tr>
+                    <td width="100%">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td width="100%">We thank you for your interest in <font color="#FF9900"><b>Viva Wyndham Resorts</b></font> and hope to have the opportunity to host your group.&nbsp; Should you require any additional information, please do not hesitate to contact us directly at 1-800-280-7521 ext. 101 or send an e-mail
+                        to <a href="mailto:groups@vivaresortsusa.com">groups@vivaresortsusa.com</a>.</td>
+                </tr>
+                <tr>
+                    <td width="100%">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td width="100%">We look forward to speaking to you soon.</td>
+                </tr>
+                <tr>
+                    <td width="100%">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td width="100%">Kind Regards,</td>
+                </tr>
+                <tr>
+                    <td width="100%">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td width="100%">&nbsp;</td>
+                </tr>
+                <!--     <tr>
+                       <td width="100%">
+                       <?
+                       if($action=="print"){
+                       ?>
+                       <img border="0" src="images/firmamichelle.gif"></td>
+                       <?
+                       }else{
+                       ?>
+                       <img border="0" src="cid:firma"></td>
+                       <?
+                       };
+                       ?>
+                    </tr>
+                 -->    <tr>
+                <td width="100%">&nbsp;</td>
+            </tr>
+                <tr>
+                    <td width="100%"><img border="0" src="cid:gn-att"></td>
+                </tr>
+                <tr>
+                    <td width="100%">Groups &amp; Weddings Director</td>
+                </tr>
+                <tr>
+                    <td width="100%">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td width="100%" align="center"><i>Represented by Caribbean Resort Marketing<br />1200 N.W. 78th Avenue, Suite 110, Miami, FL 33126 Tel (305)266-6465 Fax (305)266-6467 www.vivawyndhamresorts.com</i></td>
+                </tr>
+            </table>
+</body>
+</html>

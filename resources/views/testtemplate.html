@@ -1,0 +1,524 @@
+<?
+//WEDDINGTEMPLATE.PHP
+//Template for wedding proposals
+
+// Include database wrapper class
+include_once "ez_sql.php";
+//Include global functions
+include_once "common.php";
+
+//Get Lead id
+$leadid=get_param("leadid");
+
+//See if print or email
+$action=get_param("action");
+
+//Get group info
+$sSQL="SELECT * FROM GroupHeader WHERE GroupId=".$leadid;
+$group=$db->get_row($sSQL);
+
+//Get hotels info
+$sSQL="SELECT * FROM GroupHotels INNER JOIN Hotel ON grouphotels.GroupHotelHotel = hotel.HotelID WHERE grouphotels.GroupHotelGroup=".$leadid;
+$hotels=$db->get_results($sSQL);
+
+$sSQL="SELECT * FROM grouphotels WHERE GroupHotelGroup =".$leadid;
+
+$ghotel=$db->get_row($sSQL);
+
+//Get notes
+$sSQL="SELECT NotesDetails FROM Notes WHERE NotesGroup=".$leadid." AND NotesType='P'";
+$notes=$db->get_var($sSQL);
+
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>Wedding Proposal</title>
+    <style type="text/css">
+
+        body,p,td,pre {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            line-height: 1.4;
+            font-size: 11px;
+            font-weight: normal
+        }
+        hr {
+            height: 1px;
+            border-style: solid none none none;
+            color: #999999;
+            margin: 0;
+        }
+        .celle{
+            border: 1px solid #999999;
+            font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+            font-size: 11px;
+            padding-left: 2px;
+        }
+    </style>
+</head>
+<body style="width:88%; padding-left: 5%; padding-right: 5%;">
+<div>
+    <?php
+    if($action=="print")
+    {?>
+    <img src="images/VivaWyndhamLogo.gif" border="0"></td>
+
+    <?php } else
+    {?>
+    <img src="cid:header-att" border="0"></td>
+
+    <?php };?>
+</div>
+<br/>
+<div style="text-align:center; font-family:Arial Black; color:#000080; font-size: 18px;">
+    WEDDING PROPOSAL
+</div>
+
+<div>
+    <hr/>
+    <br/>
+    <?php echo date("m/d/y");?>
+    <br/>
+    <?php echo $group->GroupName ;?><br/>
+    <?php echo $group->GroupContact ;?><br/>
+    <?php echo "VWG".$group->GroupId ;?><br/>
+</div>
+<br/>
+<br/>
+<div style="margin-left: 3%; margin-right:3%;">
+    Dear <?php echo $group->GroupContact; ?>,<br/>
+    Thank you for considering
+    <span style="color:#FF9900; ">
+        <b>Viva Wyndham Resorts</b>
+    </span>
+    as the setting for your wedding experience.
+    <span style="color:#FF9900;">
+        <b>Viva Wyndham Resorts</b>
+    </span>
+    provides a value-packed, all inclusive option for you and your guests, with a high energy atmosphere and
+    international accents on both food and service. Your all-inclusive experience will include :
+</div>
+<div style="margin-left:25%">
+    <ul>
+        <li>
+            Accommodations
+        </li>
+        <li>
+            Full breakfast, lunch, dinner and snacks
+        </li>
+        <?php if($ghotel->GroupHotelHotel == 9 || $ghotel->GroupHotelHotel == 10){ ?>
+        <li>
+            Unlimited a la carte dining with no reservations required
+        </li>
+        <?php } ?>
+        <li>
+            Unlimited beverages, cocktails and wine
+        </li>
+        <?php if($ghotel->GroupHotelHotel == 9 || $ghotel->GroupHotelHotel == 10){ ?>
+        <li>
+            Branded drinks included
+        </li>
+        <li>
+            Free Wi-Fi in the entire resort
+        </li>
+        <?php } else {?>
+        <li>
+            Free Wi-Fi <?php echo $group->wifi;?>
+        </li>
+        <?php }?>
+        <?php if($ghotel->GroupHotelHotel == 9 || $ghotel->GroupHotelHotel == 10){ ?>
+        <li>
+            Room service – 24 hours
+        </li>
+        <li>
+            In-room coffee maker
+        </li>
+        <li>
+            In-room minibar stocked daily with water, Sodas & beer
+        </li>
+        <li>
+            Waiter service at the beach & pool
+        </li>
+        <?php } ?>
+        <li>
+            Daily activities and fitness programs
+        </li>
+        <li>
+            Unlimited non-motorized sports with complimentary lessons
+        </li>
+        <li>
+            Live nightly entertainment
+        </li>
+        <li>
+            All taxes, surcharges, gratuities
+        </li>
+        <li>
+            And ... much, much more
+        </li>
+    </ul>
+</div>
+
+<div style="margin-left:3%; margin-right:3%">
+    If the group stays in our resorts for a minimum of three nights, the wedding couple will also enjoy our
+    <span style="color:#FF9900;"><b>Pure VivaWyndham Honeymoon Package</b></span> FREE.<br/>
+    The Pure Viva Wyndham Honeymoon Package includes the following :
+</div>
+
+<div style="margin-left:25%">
+    <ul>
+        <li>
+            Early check-in and late check-out based on availability
+        </li>
+        <li>
+            Upgrade to a higher room category based on availability
+        </li>
+        <li>
+            In-room breakfast on the day after your arrival
+        </li>
+        <li>
+            A bottle of sparkling wine
+        </li>
+        <li>
+            Fresh fruit plate
+        </li>
+        <li>
+            A tray of hors d'oeuvres in resorts available
+        </li>
+        <li>
+            A photo or souvenir
+        </li>
+        <li>
+            Two Viva Wyndham t-shirts
+        </li>
+        <li>
+            10% Discount at our Vacation Club
+        </li>
+        <li>
+            10% Discount on Beauty and Spa services in only resorts available
+        </li>
+    </ul>
+</div>
+
+<div  style="margin-left:3%; margin-right:3%">
+    We offer several locations to choose from, an extensive list of options both for catering and entertainment
+    and a personalized service and attention to detail.  Your wedding experience will be exactly as you always
+    dreamed, unforgettable!<br/>
+    Let us do the work for you. We can assist you with special arrangements for your important day including
+    special room requests, transfers, and any other details you may need aid with.<br/>
+    Following is the current information you have requested.
+</div>
+<br/>
+
+<div style="margin-left:3%; margin-right:3%">
+    <?php foreach($hotels as $hotel){?>
+        <?php echo $hotel->HotelInfo ;?><br/><br/>
+        To look at some pictures
+        <?php if($hotel->video != ""){?>
+            and video
+        <?php }?>
+        of the resort and its amenities, please click on the
+        <?php if($hotel->video != ""){?>
+            links
+        <?php } else {?>
+            link
+        <?php }?>
+        below:<br/>
+        <a href="<?php echo $hotel->foto?>">Link Pictures</a>
+        <?php if($hotel->video != ""){?>
+            <br/><a href="<?echo $hotel->video?>">Link Video</a>
+        <?php } ?>
+    <?php } ?>
+</div>
+<br/>
+<div style="text-align: center">
+    <?php if($action=="print"){?>
+    <img src="images/bannerwed.jpg" border="0">
+    <?php } else { ?>
+    <img src="cid:mid-att">
+    <?php } ?>
+</div>
+<br/>
+<div>
+    <table border="0" cellpadding="0" cellspacing="0" width="95%">
+        <tr>
+            <td width="40%" align="left" style="border: 2px solid Black; font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;	font-size: 12px; padding-left: 2px; font-weight: bold;">Room Block</td>
+            <td width="19%">&nbsp;</td>
+            <td width="10%">&nbsp;</td>
+            <td width="10%">&nbsp;</td>
+            <td width="21%">&nbsp;</td>
+        </tr>
+        <?
+                //Get Rooms info
+                $sSQL="SELECT hotel.HotelShortName, groupperiods.PeriodCheckin, groupperiods.PeriodCheckout, grouprooms.childrenRate, hotel.HotelLongName, roomtype.RoomTypeDescription, occupancy.OccupancyDescription, grouprooms.GroupRoomsId, grouprooms.GroupRoomsQty, grouprooms.GroupRoomsNights, grouprooms.GroupRoomsPP, grouprooms.GroupRoomsRevenue, grouprooms.GroupRoomsHotel, grouprooms.GroupRoomsPeriod FROM grouprooms INNER JOIN occupancy ON grouprooms.GroupRoomsOccupancy = occupancy.OccupancyId INNER JOIN roomtype ON grouprooms.GroupRoomsType = roomtype.RoomTypeId INNER JOIN hotel ON grouprooms.GroupRoomsHotel = hotel.HotelID INNER JOIN groupperiods ON grouprooms.GroupRoomsPeriod = groupperiods.PeriodId  WHERE grouprooms.GroupRoomsGroup=".$leadid." ORDER BY grouprooms.GroupRoomsHotel, grouprooms.GroupRoomsPeriod, grouprooms.GroupRoomsOccupancy";
+                $rooms=$db->get_results($sSQL);
+
+
+        $hotelNums = array();
+        $hotelQuantity = 0;
+        foreach($rooms as $room){
+        if(count($hotelNums) > 0){
+        foreach($hotelNums as $hotelNum){
+        if($room->HotelID == $hotelnum){
+        $hotelQuantity--;
+        }
+        }
+        }
+        $hotelNums[] =  $room->HotelID;
+        $hotelQuantity++;
+        }
+
+
+        $periodid=0;
+        $hotelid=0;
+        foreach($rooms as $room){
+        $cambiato=0;
+        if($room->GroupRoomsHotel!=$hotelid){
+        $hotelid=$room->GroupRoomsHotel;
+        $cambiato=1;
+        }else{
+        $cambiato=0;
+        };
+        if($room->GroupRoomsPeriod !=$periodid){
+        $periodid=$room->GroupRoomsPeriod;
+        $cambiato=1;
+        };
+        if($cambiato==1){
+        ?>
+        <tr>
+            <td width="100%" colspan="5">&nbsp;</td>
+        </tr>
+        <tr bgcolor="#D3D3D3">
+            <td width="50%" colspan="2">
+                <span style="margin-top:10px; ">
+                    <b><?echo $room->HotelLongName; ?></b>
+                </span>
+            </td>
+            <td width="50%" colspan="3" >
+                <span style="">
+                    <b>
+                        Date of Arrival :
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <?if($room->PeriodCheckin != null){  echo date('F j, Y',strtotime($room->PeriodCheckin)); }?>
+                        <br />
+                        Date of Departure :
+                        &nbsp;&nbsp;
+                        <?php if($room->PeriodCheckout != null){ echo date('F j, Y',strtotime($room->PeriodCheckout)); }?>
+                    </b>
+                </span>
+            </td>
+</tr>
+<tr>
+    <!-- Rooms Header -->
+    <td width="40%" class="celle" align="left" bgcolor="#FFFFCC">&nbsp;<b>Room Type</b></td>
+    <td width="19%" class="celle" align="center" bgcolor="#FFFFCC"><b>Occupancy</b></td>
+    <td width="10%" class="celle" align="center" bgcolor="#FFFFCC"><b>Rooms</b></td>
+    <td width="10%" class="celle" align="center" bgcolor="#FFFFCC"><b>Nights</b></td>
+    <td width="21%" class="celle" align="center" bgcolor="#FFFFCC"><b>Price PP per night</b></td>
+</tr>
+<tr>
+    <td width="40%" class="celle" align="left">&nbsp;<? echo $room->RoomTypeDescription; ?></td>
+    <td width="19%" class="celle" align="center"><? echo $room->OccupancyDescription; ?></td>
+    <td width="10%" class="celle" align="center"><? echo $room->GroupRoomsQty; ?></td>
+    <td width="10%" class="celle" align="center"><? echo $room->GroupRoomsNights; ?></td>
+    <td width="21%" class="celle" align="center">$ <? echo $room->GroupRoomsPP; ?></td>
+</tr>
+<?php }else{ ?>
+<tr>
+    <td width="40%" class="celle" align="left">&nbsp;<? echo $room->RoomTypeDescription; ?></td>
+    <td width="19%" class="celle" align="center"><? echo $room->OccupancyDescription; ?></td>
+    <td width="10%" class="celle" align="center"><? echo $room->GroupRoomsQty; ?></td>
+    <td width="10%" class="celle" align="center"><? echo $room->GroupRoomsNights; ?></td>
+    <td width="21%" class="celle" align="center">$ <? echo $room->GroupRoomsPP; ?></td>
+</tr>
+<?php } } ?>
+</table>
+</div>
+
+<div>
+    <?php
+		$occ[1] = "Single";
+        $occ[2] = "Double";
+        $occ[3] = "Tripe";
+        $occ[4] = "Quadruple";
+
+        $sSQL="SELECT groupperiods.PeriodCheckin, groupperiods.PeriodCheckout, grouprooms.childrenRate, hotel.HotelLongName, roomtype.RoomTypeDescription, occupancy.OccupancyDescription, grouprooms.GroupRoomsId, grouprooms.GroupRoomsQty, grouprooms.GroupRoomsNights, grouprooms.GroupRoomsPP, grouprooms.GroupRoomsRevenue, grouprooms.GroupRoomsHotel, grouprooms.GroupRoomsPeriod FROM grouprooms INNER JOIN occupancy ON grouprooms.GroupRoomsOccupancy = occupancy.OccupancyId INNER JOIN roomtype ON grouprooms.GroupRoomsType = roomtype.RoomTypeId INNER JOIN hotel ON grouprooms.GroupRoomsHotel = hotel.HotelID INNER JOIN groupperiods ON grouprooms.GroupRoomsPeriod = groupperiods.PeriodId  WHERE grouprooms.GroupRoomsGroup=".$leadid." ORDER BY grouprooms.GroupRoomsHotel, grouprooms.GroupRoomsPeriod, grouprooms.GroupRoomsOccupancy";
+        $rooms=$db->get_results($sSQL);?>
+    <ul>
+        <?php
+        foreach($rooms as $room){
+            $sSQL="SELECT * FROM occupancyprice WHERE roomid = ".$room->GroupRoomsId;
+
+        $occPrices = $db->get_results($sSQL);?>
+        <li>
+            <?php
+            echo $room->RoomTypeDescription;
+            if(substr($room->RoomTypeDescription, -1) == "s") {
+                echo"' rates";
+            } else {
+                echo "'s rates";
+            }?>
+            <ul>
+                <?php
+                foreach($occPrices as $occPrice){ ?>
+                <li>
+                    <?php echo $occ[$occPrice->occupancyid];?> occupancy is $<?php echo $occPrice->price;?> per person per night.
+                </li>
+                <?php }?>
+            </ul>
+        </li>
+        <?php }?>
+    </ul>
+</div>
+
+<div>
+    <ul>
+        <?php if($hotel->HotelContractHotel != 9 && $hotel->HotelContractHotel != 10){
+        foreach($rooms as $room){
+        if($room->childrenRate != null){?>
+        <li>
+            <?php if(count($hotelQuantity) > 1 ){ echo $room->HotelShortName.":"; }?> Children 3-12 years old pay $<?echo $room->childrenRate;?> per child per night. Newborn &#8722; 2 years old stay free.</li>
+        <?php }
+                    }
+                } else {?>
+        <li>This is an Adults-Only Resort. Children are not allowed.</li>
+        <?php } ?>
+        <li>All prices are per person, per night.</li>
+        <li>Above amenities and rates require a mandatory minimum of 10 rooms in double occupancy.</li>
+        <li>Reservations traveling 5 days prior or after rooms blocked will be honored with the same group rates.</li>
+        <li>Any pre and post stays are based on space available.</li>
+        <li>Above rates are valid for seven days from the proposal issued date. After seven days, rates are subject to change without notice or until contracted.</li>
+        <li>Space is subject to availability.</li>
+        <li>In order to secure a group block, we require a signed contract and a 25% deposit from the total room block amount.</li>
+    </ul>
+</div>
+
+<div>
+    <br/>
+    <div style="font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;	font-size: 12px; padding-left: 2px; font-weight: bold;">
+        <b>Notes</b>
+        <br/><br/>
+    </div>
+    <?php echo $notes;?>
+</div>
+
+<div>
+    <?php
+                //Get extra info
+                $sSQL = "SELECT groupperiods.PeriodCheckin, groupperiods.PeriodCheckout, hotel.HotelLongName, groupextra.GroupExtraShortDesc, groupextra.GroupExtraUnits, groupextra.GroupExtraPricePU, groupextra.GroupExtraTotal, groupextra.GroupExtraHotel, groupextra.GroupExtraPeriod, groupextra.GroupExtraId
+                        FROM groupextra
+                        INNER JOIN hotel ON
+                        groupextra.GroupExtraHotel = hotel.HotelID
+                        INNER JOIN groupperiods ON groupextra.GroupExtraPeriod = Groupperiods.PeriodId
+                         WHERE groupextra.GroupExtraGroup=".$leadid." ORDER BY groupextra.GroupExtraHotel, groupextra.GroupExtraPeriod";
+
+    if($extras=$db->get_results($sSQL)){?>
+    <table border="0" cellpadding="0" cellspacing="0" width="95%">
+        <tr>
+            <td width="40%" align="left" style="border: 2px solid Black; font-family: Verdana, Geneva, Arial, Helvetica, 	sans-serif;	font-size: 12px; padding-left: 2px; font-weight: bold;">Additional Services</td>
+            <td width="30%">&nbsp;</td>
+            <td width="15%">&nbsp;</td>
+            <td width="15%">&nbsp;</td>
+        </tr>
+        <?php
+            $periodid=0;
+            $hotelid=0;
+
+            foreach($extras as $extra){
+                $cambiato=0;
+                if($extra->GroupExtraHotel!=$hotelid){
+        $hotelid=$extra->GroupExtraHotel;
+        $cambiato=1;
+        } else {
+        $cambiato=0;
+        }
+
+        if($extra->GroupExtraPeriod !=$periodid){
+        $periodid=$extra->GroupExtraPeriod;
+        $cambiato=1;
+        }
+
+        if($cambiato==1){ ?>
+        <tr>
+            <td width="100%" colspan="4">&nbsp;</td>
+        </tr>
+        <tr>
+            <td width="100%" colspan="5" bgcolor="#D3D3D3">&nbsp;<font color="#0099CC" size="1"><b>
+                <?echo $room->HotelLongName; ?> - Date of Arrival <? echo $room->PeriodCheckin; ?>- Date of Departure <? echo 		$room->PeriodCheckout; ?></b></font>
+            </td>
+        </tr>
+        <tr>
+            <!-- Rooms Header -->
+            <td width="70" class="celle" colspan="2" bgcolor="#FFFFCC">&nbsp;<b>Description</b></td>
+            <td width="15%" class="celle" align="center" bgcolor="#FFFFCC"><b>Units</b></td>
+            <td width="15%" class="celle" align="center" bgcolor="#FFFFCC"><b>Price</b></td>
+        </tr>
+        <tr>
+            <td width="70%" class="celle" colspan="2">&nbsp;<? echo $extra->GroupExtraShortDesc; ?></td>
+            <td width="15%" class="celle" align="center"><? echo $extra->GroupExtraUnits; ?></td>
+            <td width="15%" class="celle" align="center">$ <? echo $extra->GroupExtraPricePU; ?></td>
+        </tr>
+        <?php }else{ ?>
+        <tr>
+            <td width="70%" class="celle" colspan="2">&nbsp;<? echo $extra->GroupExtraShortDesc; ?></td>
+            <td width="15%" class="celle" align="center"><? echo $extra->GroupExtraUnits; ?></td>
+            <td width="15%" class="celle" align="center">$ <? echo $extra->GroupExtraPricePU; ?></td>
+        </tr>
+        <?php }
+            }?>
+    </table>
+    <?php } ?>
+</div>
+
+<div>
+    As an added bonus, we will offer one complimentary &quot;Resort Stay&quot; for every 20 paid adults participants.
+    Therefore the twenty-first person is free. The complimentary stay will be allocated in the category in which
+    there is the greatest number of room types reserved.
+</div>
+<br/>
+<div>
+    Attached you will find information on our different wedding packages.  This will help you facilitate your
+    search to find the perfect wedding package that suits you best.
+</div>
+<br/>
+<div style="text-align: center">
+    <?php if($action=="print"){?>
+    <img src="images/testwedding.gif">
+    <?php } else {?>
+    <img src="cid:footer-att">
+    <?php } ?>
+</div>
+<br/>
+<div>
+    We thank you for your interest in <span style="color:#FF9900;"><b>Viva Wyndham Resorts</b></span>
+    and hope to have the opportunity to host your wedding.&nbsp; Should you require any additional information,
+    please do not hesitate to contact us directly at 1-800-280-7521 ext. 101 or send an e-mail
+    to <a href="mailto:groups@vivaresortsusa.com">groups@vivaresortsusa.com</a>.
+    <br/>
+    <br/>
+
+    We look forward to speaking to you soon.
+    <br/>
+    <br/>
+
+    Kind Regards,</td>
+    <br/>
+
+    <?php if($action=="print"){?>
+    <img src="images/gn.png">
+    <?php } else {?>
+    <img src="cid:gn-att">
+    <?php } ?>
+
+    <br/>
+    Groups &amp; Weddings Director
+</div>
+<br/>
+<div style="text-align: center">
+    Represented by Caribbean Resort Marketing
+    <br />
+    1200 N.W. 78th Avenue, Suite 110, Miami, FL 33126 Tel (305)266-6465 Fax (305)266-6467
+    <br/>
+    <a href="www.vivawyndhamresorts.com">www.vivawyndhamresorts.com</a>
+</div>
+</body>
+</html>
